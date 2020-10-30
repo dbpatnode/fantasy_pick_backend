@@ -15,6 +15,7 @@
 # $matches = json_decode($response);
 
 Match.destroy_all
+Team.destroy_all
 
 
 resp = RestClient::Request.execute(method: :get,
@@ -60,6 +61,29 @@ resp = RestClient::Request.execute(method: :get,
                 penalties_away_score: match["score"]["penalties"]["awayTeam"], #integer
             })
         
+end
+
+resp = RestClient::Request.execute(method: :get,
+    url: "http://api.football-data.org/v2/competitions/PL/teams",
+    headers:{
+        'Content-Type': 'application/json',
+        'X-Auth-Token': 'c0a9283e1baa4db79c422937330dcbaf'
+    }) 
+    team_data = JSON.parse(resp.body)
+    teams = team_data["teams"]
+    # byebug
+
+    teams.each do |team|
+        Team.create({
+
+            team_id: team["id"],
+            team_name: team["name"],
+            crest: team["crestURL"],
+            website: team["website"],
+            founding_year: team["founded"],
+            club_colors: team["clubColors"]
+        })
+    
 end
 
 puts "check out these sweet seeds"
