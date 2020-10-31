@@ -60,7 +60,7 @@ resp = RestClient::Request.execute(method: :get,
                 penalties_home_score: match["score"]["penalties"]["homeTeam"], #integer
                 penalties_away_score: match["score"]["penalties"]["awayTeam"], #integer
             })
-        
+            
 end
 
 resp = RestClient::Request.execute(method: :get,
@@ -71,19 +71,19 @@ resp = RestClient::Request.execute(method: :get,
     }) 
     team_data = JSON.parse(resp.body)
     teams = team_data["teams"]
-    # byebug
 
-    teams.each do |team|
-        Team.create({
-
-            team_id: team["id"],
-            team_name: team["name"],
-            crest: team["crestURL"],
-            website: team["website"],
-            founding_year: team["founded"],
-            club_colors: team["clubColors"]
-        })
-    
+        
+        teams.each do |team|
+            Team.create({
+        
+                team_id: team["id"],
+                team_name: team["name"],
+                crest: team["crestURL"],
+                website: team["website"],
+                founding_year: team["founded"],
+                club_colors: team["clubColors"]
+            })
+        
 end
 
 puts "check out these sweet seeds"
