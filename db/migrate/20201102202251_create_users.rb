@@ -1,4 +1,4 @@
-class CreateUsers < ActiveRecord::Migration[6.0]
+passclass CreateUsers < ActiveRecord::Migration[6.0]
   def change
     create_table :users do |t|
       t.string :password_digest
@@ -7,6 +7,7 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.integer :wins
       t.integer :losses
       t.integer :draws
+      t.integer :points
    
       t.timestamps
     end

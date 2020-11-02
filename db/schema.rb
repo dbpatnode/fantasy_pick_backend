@@ -10,15 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_02_205417) do
+ActiveRecord::Schema.define(version: 2020_11_02_223824) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "leagues", force: :cascade do |t|
-    t.string "league_name"
+  create_table "joins", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "league_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["league_id"], name: "index_joins_on_league_id"
+    t.index ["user_id"], name: "index_joins_on_user_id"
+  end
+
+  create_table "leagues", force: :cascade do |t|
+    t.string "league_name"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_leagues_on_user_id"
   end
 
   create_table "matches", force: :cascade do |t|
@@ -44,6 +55,17 @@ ActiveRecord::Schema.define(version: 2020_11_02_205417) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "picks", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "match_id", null: false
+    t.string "winner"
+    t.integer "match_day"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["match_id"], name: "index_picks_on_match_id"
+    t.index ["user_id"], name: "index_picks_on_user_id"
+  end
+
   create_table "teams", force: :cascade do |t|
     t.integer "team_id"
     t.string "team_name"
@@ -62,8 +84,14 @@ ActiveRecord::Schema.define(version: 2020_11_02_205417) do
     t.integer "wins"
     t.integer "losses"
     t.integer "draws"
+    t.integer "points"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "joins", "leagues"
+  add_foreign_key "joins", "users"
+  add_foreign_key "leagues", "users"
+  add_foreign_key "picks", "matches"
+  add_foreign_key "picks", "users"
 end

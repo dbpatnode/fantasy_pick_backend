@@ -13,8 +13,14 @@
 # $stream_context = stream_context_create($reqPrefs);
 # $response = file_get_contents($uri, false, $stream_context);
 # $matches = json_decode($response)
+
+
+Pick.destroy_all
+Join.destroy_all
+League.destroy_all
 Match.destroy_all
 Team.destroy_all
+User.destroy_all
 
 
 resp = RestClient::Request.execute(method: :get,
@@ -82,7 +88,56 @@ resp = RestClient::Request.execute(method: :get,
                 founding_year: team["founded"],
                 club_colors: team["clubColors"]
             })
-        
 end
+
+
+####### COME BACK TO THIS TO ADD TEAM ROSTERS #################################
+# resp = RestClient::Request.execute(method: :get,
+#     url: `http://api.football-data.org/v2/teams/#{team_id}`,
+#     headers:{
+#         'Content-Type': 'application/json',
+#         'X-Auth-Token': 'c0a9283e1baa4db79c422937330dcbaf'
+#     }) 
+#     team_data = JSON.parse(resp.body)
+#     teams = team_data["teams"]
+
+        
+#         teams.each do |team|
+#             Team.create({
+        
+#                 team_id: team["id"],
+#                 team_name: team["name"],
+#                 crest: team["crestURL"],
+#                 website: team["website"],
+#                 founding_year: team["founded"],
+#                 club_colors: team["clubColors"]
+#             })
+# end
+
+
+####### COME BACK TO THIS TO ADD TEAM STANDINGS #################################
+# resp = RestClient::Request.execute(method: :get,
+#     url: `http://api.football-data.org/v2/competitions/PL/standings`,
+#     headers:{
+#         'Content-Type': 'application/json',
+#         'X-Auth-Token': 'c0a9283e1baa4db79c422937330dcbaf'
+#     }) 
+#     team_data = JSON.parse(resp.body)
+#     teams = team_data["teams"]
+
+        
+#         teams.each do |team|
+#             Team.create({
+        
+#                 team_id: team["id"],
+#                 team_name: team["name"],
+#                 crest: team["crestURL"],
+#                 website: team["website"],
+#                 founding_year: team["founded"],
+#                 club_colors: team["clubColors"]
+#             })
+# end
+
+user1 = User.create(password_digest: "1234", username: "dpat", email: "dpat@email.com")
 
 puts "check out these sweet seeds"

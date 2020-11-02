@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :picks
+  resources :joins
   resources :leagues
   resources :users
   resources :teams
