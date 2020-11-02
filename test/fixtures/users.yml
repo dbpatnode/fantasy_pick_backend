@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  password: MyString
+  password_digest: MyString
+  username: MyString
+  email: MyString
+  wins: 1
+  losses: 1
+  draws: 1
+
+two:
+  password: MyString
+  password_digest: MyString
+  username: MyString
+  email: MyString
+  wins: 1
+  losses: 1
+  draws: 1
