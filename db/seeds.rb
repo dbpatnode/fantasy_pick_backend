@@ -12,8 +12,7 @@
 # $reqPrefs['http']['header'] = 'X-Auth-Token: c0a9283e1baa4db79c422937330dcbaf';
 # $stream_context = stream_context_create($reqPrefs);
 # $response = file_get_contents($uri, false, $stream_context);
-# $matches = json_decode($response);
-
+# $matches = json_decode($response)
 Match.destroy_all
 Team.destroy_all
 
@@ -22,7 +21,7 @@ resp = RestClient::Request.execute(method: :get,
         url: "http://api.football-data.org/v2/competitions/PL/matches?",
         headers:{
             'Content-Type': 'application/json',
-            'X-Auth-Token': 'c0a9283e1baa4db79c422937330dcbaf'
+            'X-Auth-Token': ENV['API_KEY']
         }) 
         match_data = JSON.parse(resp.body)
         matches = match_data["matches"]

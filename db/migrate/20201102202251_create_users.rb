@@ -7,9 +7,7 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.integer :wins
       t.integer :losses
       t.integer :draws
-      # t.string :favorite_team
-      t.references :team, null :false, foreign_key :true
-
+   
       t.timestamps
     end
   end

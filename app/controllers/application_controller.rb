@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::API
 
-    before_action :authorize_action
+    # before_action :authorize_action
     
 
     
