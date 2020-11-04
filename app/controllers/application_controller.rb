@@ -1,38 +1,42 @@
 class ApplicationController < ActionController::API
 
-    # before_action :authorize_action
-    
 
     
-    def token
+    before_action :authorized
+    
+    def encode_token(payload)
+        JWT.encode(payload, 'in3ur_nce')
+    end
+    
+    def auth_header
         request.headers['Authorization']
     end
-
+    
     def decoded_token
-        begin
-        JWT.decode(self.token, ENV['SECRET'], true, { alg: ENV['ALG'] })
-        rescue JWT::DecodeError
-        [ { error: 'invalid token' } ]
+        if auth_header
+            token = auth_header.split(' ')[1]
+            begin
+                JWT.decode(token, ENV['SECRET'], true, { alg: ENV['ALG']})
+            rescue JWT::DecodeError
+                [ { error: 'invalid token' } ]
+
+            end
         end
-    end
-    
-    def request_user_id
-        self.decoded_token.first['user_id']
     end
 
-    def request_user
-        @request_user_id ||= self.request_user_id
-        User.find(@request_user_id) if !!@request_user_id
-    end
     
-    def request_authorized?
-        !!self.request_user
+  def current_user
+    if decoded_token
+      user_id = decoded_token[0]['user_id']
+      @user = User.find_by(id: user_id)
     end
-    
-    def authorize_action
-        if !self.request_authorized?
-        render json: { error: "Request not authorized." }, status: 401
-        end
-    end
-    
-end
+  end
+
+  def logged_in?
+    !!current_user
+  end
+
+  def authorized
+    render json: { message: 'Please log in' }, status: :unauthorized unless logged_in?
+  end
+  end
