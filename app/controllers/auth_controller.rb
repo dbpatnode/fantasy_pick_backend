@@ -1,29 +1,25 @@
 class AuthController < ApplicationController
-    
-    # skip_before_action :authorize_action, except: [:show]
-    
-    # def create
-    #     # byebug
-    #     @user = User.find_by(username: user_params[:username])
-    #     render json: { error: "No User found with that username." }, status: 404 if !@user
-    #     if !@user.authenticate(user_params[:password])
-    #     render json: { error: "Password invalid." }, status: 401
-    #     end
-    #     auth_token = self.issue_token(@user)
-    #     render json: { auth_token: auth_token, user: UserSerializer.new(@user) }
-    # end
+    skip_before_action :authorized, only: [:create]
 
-    # def show
-    #     @user = User.find(@request_user_id)
-    #     render json: @user
-    # end
-
-    # def issue_token(user)
-    #     JWT.encode({ user_id: user.id}, ENV['SECRET'], ENV['ALG'])
-    # end
-    
-    # def user_params
-    #     params.require(:user).permit(:username, :password)
-    # end
-
-end
+    def create
+      @user = User.find_by(username: user_login_params[:username])
+      if @user&.authenticate(user_login_params[:password])
+        token = encode_token({ user_id: @user.id })
+        render json: { user: UserSerializer.new(@user), token: token }, status: :accepted
+      else
+        render json: { message: 'Invalid username or password' }, status: :unauthorized
+      end
+    end
+  
+    def reauth
+      render json: { user: UserSerializer.new(current_user) }, status: :accepted
+  
+    end
+  
+    private
+  
+    def user_login_params
+      params.require(:user).permit(:username, :password)
+    end
+  end
+  
