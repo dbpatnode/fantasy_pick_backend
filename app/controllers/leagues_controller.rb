@@ -6,11 +6,12 @@ class LeaguesController < ApplicationController
     end
 
     def create 
+    
         league = League.create(league_params)
         if league.valid?
         render json: league
         else render json:{error:"Failed to add new league."}
-        
+    end
     end
 
     def show 
@@ -34,7 +35,7 @@ class LeaguesController < ApplicationController
     private 
 
     def league_params 
-        params.require(:league).permit(:user_id, :name)
+        params.require(:league).permit( :league_name)
     end
 
 end
