@@ -11,7 +11,8 @@ class AuthController < ApplicationController
       end
     end
   
-    def reauth
+    def reauth 
+
       render json: { user: UserSerializer.new(current_user) }, status: :accepted
   
     end

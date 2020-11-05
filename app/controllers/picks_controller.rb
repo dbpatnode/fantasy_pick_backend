@@ -1,16 +1,16 @@
 class PicksController < ApplicationController
-
     def index
         picks = Pick.all 
         render json: picks
     end
 
     def create 
-        pick = Pick.create(pick_params)
+        @match= Match.find_by(match_id: pick_params[:match_id])
+        pick = Pick.create(user_id:pick_params[:user_id], match_id: @match.id, winner:pick_params[:winner])
         if pick.valid?
         render json: pick
         else render json:{error:"Failed to add new pick."}
-        
+    end
     end
 
     def show 
@@ -25,7 +25,6 @@ class PicksController < ApplicationController
     end
 
     def destroy 
-        # byebug
         pick = Pick.find(params[:id])
         pick.destroy
         render json:{message: "pick has been deleted"}
@@ -36,4 +35,5 @@ class PicksController < ApplicationController
     def pick_params 
         params.require(:pick).permit(:user_id, :match_id, :winner)
     end
+
 end
