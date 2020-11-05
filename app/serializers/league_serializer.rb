@@ -1,3 +1,3 @@
 class LeagueSerializer < ActiveModel::Serializer
-  attributes :id, :league_name
+  attributes :id, :league_name, :joins
 end

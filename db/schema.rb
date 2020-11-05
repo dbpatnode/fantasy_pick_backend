@@ -26,10 +26,8 @@ ActiveRecord::Schema.define(version: 2020_11_02_223824) do
 
   create_table "leagues", force: :cascade do |t|
     t.string "league_name"
-    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_leagues_on_user_id"
   end
 
   create_table "matches", force: :cascade do |t|
@@ -84,14 +82,12 @@ ActiveRecord::Schema.define(version: 2020_11_02_223824) do
     t.integer "wins"
     t.integer "losses"
     t.integer "draws"
-    t.integer "points"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   add_foreign_key "joins", "leagues"
   add_foreign_key "joins", "users"
-  add_foreign_key "leagues", "users"
   add_foreign_key "picks", "matches"
   add_foreign_key "picks", "users"
 end
