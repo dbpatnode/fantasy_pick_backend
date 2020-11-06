@@ -1,4 +1,5 @@
 class LeaguesController < ApplicationController
+    skip_before_action :authorized, only: [:index]
 
     def index
         leagues = League.all 
@@ -6,8 +7,8 @@ class LeaguesController < ApplicationController
     end
 
     def create 
-    
         league = League.create(league_params)
+
         if league.valid?
         render json: league
         else render json:{error:"Failed to add new league."}
