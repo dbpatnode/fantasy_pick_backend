@@ -8,10 +8,10 @@ class LeaguesController < ApplicationController
 
     def create 
         league = League.create(league_params)
-
         if league.valid?
-        render json: league
-        else render json:{error:"Failed to add new league."}
+            join = Join.create(league_id: league.id, user_id: league.user_id)
+            render json: league
+        else render json:{error: league.errors.full_messages}
     end
     end
 

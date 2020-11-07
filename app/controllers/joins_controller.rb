@@ -6,7 +6,6 @@ class JoinsController < ApplicationController
     end
 
     def create 
-    
         @join = Join.create(join_params)
         if @join.valid?
         render json: @join
