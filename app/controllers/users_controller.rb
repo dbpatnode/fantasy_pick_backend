@@ -22,11 +22,11 @@ class UsersController < ApplicationController
   def create
     
     @user = User.create(user_params)
-
     if @user.valid?
       @token = encode_token({ user_id: @user.id })
       render json: { user: UserSerializer.new(@user), token: @token }, status: :created
     else
+      
       render json: { error: @user.errors.full_messages }, status: :not_acceptable
     end
   end
@@ -43,10 +43,11 @@ end
 
   def update
     @user = User.find_by(id: params[:id])
-    if @user.update(user_params)
+    @user.update_attributes(user_params)
+    if @user.save(validate: false)
       render json: @user
     else
-      render json: { error: 'Passwords do not match' }
+      render json: { error: @user.errors.full_messages}
     end
   end
 
