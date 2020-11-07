@@ -9,7 +9,7 @@ class PicksController < ApplicationController
         pick = Pick.create(user_id:pick_params[:user_id], match_id: @match.id, winner:pick_params[:winner], match_day:pick_params[:match_day])
         if pick.valid?
         render json: pick
-        else render json:{error:"Failed to add new pick."}
+        else render json:{error: pick.errors.full_messages}
     end
     end
 
