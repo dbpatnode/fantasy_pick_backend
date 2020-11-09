@@ -1,4 +1,6 @@
 class PicksController < ApplicationController
+    skip_before_action :authorized, only: [:index]
+
     def index
         picks = Pick.all 
         render json: picks
