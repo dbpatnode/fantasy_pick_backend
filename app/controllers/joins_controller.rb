@@ -7,8 +7,9 @@ class JoinsController < ApplicationController
 
     def create 
         @join = Join.create(join_params)
+        @league = League.find(join_params[:league_id])
         if @join.valid?
-        render json: @join
+        render json: @league
         else render json:{error:"Failed to join to league."}
     end
     end

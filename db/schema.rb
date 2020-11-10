@@ -26,9 +26,9 @@ ActiveRecord::Schema.define(version: 2020_11_06_074352) do
 
   create_table "leagues", force: :cascade do |t|
     t.string "league_name"
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_leagues_on_user_id"
   end
 
@@ -84,6 +84,7 @@ ActiveRecord::Schema.define(version: 2020_11_06_074352) do
     t.integer "wins"
     t.integer "losses"
     t.integer "draws"
+    t.integer "points"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
