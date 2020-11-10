@@ -1,5 +1,6 @@
 class JoinSerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id , :user, :user_id, :league_id
+
   has_one :user
-  has_one :league
+  # has_one :league
 end
