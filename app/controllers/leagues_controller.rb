@@ -22,6 +22,7 @@ class LeaguesController < ApplicationController
 
     def update 
         league = League.find(params[:id])
+        # byebug
         league.update(league_params)
         render json: league
     end
@@ -36,7 +37,7 @@ class LeaguesController < ApplicationController
     private 
 
     def league_params 
-        params.require(:league).permit( :league_name, :user_id)
+        params.require(:league).permit( :league_name)
     end
 
 end
