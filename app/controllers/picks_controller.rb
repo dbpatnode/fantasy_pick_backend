@@ -8,7 +8,7 @@ class PicksController < ApplicationController
 
     def create 
         @match= Match.find_by(match_id: pick_params[:match_id])
-        pick = Pick.create(user_id:pick_params[:user_id], match_id: @match.id, winner:pick_params[:winner], match_day:pick_params[:match_day])
+        pick = Pick.create(user_id:pick_params[:user_id], match_id: @match.id, winner:pick_params[:winner], match_day:pick_params[:match_day], homeTeam:pick_params[:homeTeam], awayTeam:pick_params[:awayTeam])
         if pick.valid?
         render json: pick
         else render json:{error: pick.errors.full_messages}
@@ -35,7 +35,7 @@ class PicksController < ApplicationController
     private 
 
     def pick_params 
-        params.require(:pick).permit(:user_id, :match_id, :winner, :match_day)
+        params.require(:pick).permit(:user_id, :match_id, :winner, :match_day, :awayTeam, :homeTeam)
     end
 
 end
